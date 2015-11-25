@@ -1,7 +1,17 @@
-import { createStore } from 'redux'
-import todos from './reducer'
+import { createStore, combineReducers } from 'redux'
+import { todos, counter, add } from './reducer'
 
-let store = createStore(todos, [])
+let counters = combineReducers({
+  counter,
+  add
+})
+
+let reducers = combineReducers({
+  todos,
+  counters
+})
+
+let store = createStore(reducers)
 console.log('s0:', store.getState())
 
 let unsubscribe = store.subscribe(() => {
@@ -11,6 +21,12 @@ let unsubscribe = store.subscribe(() => {
 store.dispatch({
   type: 'ADD_TODO',
   text: 'add 1'
+})
+store.dispatch({
+  type: 'INCREMENT'
+})
+store.dispatch({
+  type: 'ADD'
 })
 console.log('s1:', store.getState())
 
